@@ -107,8 +107,6 @@ void BSApp::render() {
     glUseProgram(rendering_program);
     glDrawArrays(GL_TRIANGLES, 0, 3);
 
-    // SDL
-    SDL_GL_SwapWindow(main_window);
 }
 
 void BSApp::shutdown() {
@@ -143,19 +141,19 @@ void BSApp::start_loop() {
                         // Cover with red and update
                         glClearColor(1.0, 0.0, 0.0, 1.0);
                         glClear(GL_COLOR_BUFFER_BIT);
-                        SDL_GL_SwapWindow(main_window);
+
                         break;
                     case SDLK_g:
                         // Cover with green and update
                         glClearColor(0.0, 1.0, 0.0, 1.0);
                         glClear(GL_COLOR_BUFFER_BIT);
-                        SDL_GL_SwapWindow(main_window);
+
                         break;
                     case SDLK_b:
                         // Cover with blue and update
                         glClearColor(0.0, 0.0, 1.0, 1.0);
                         glClear(GL_COLOR_BUFFER_BIT);
-                        SDL_GL_SwapWindow(main_window);
+
                         break;
                     default:
                         break;
@@ -163,9 +161,8 @@ void BSApp::start_loop() {
             }
         }
 
-        // Swap our back buffer to the front
-        // This is the same as :
-        // 		SDL_RenderPresent(&renderer);
+        // SDL
+        SDL_GL_SwapWindow(main_window);
     }
 }
 
