@@ -99,12 +99,34 @@ void BSApp::startup() {
 
 void BSApp::render() {
     // Loop draw
-    const GLfloat color[] = {
-            0.0f, 0.2f, 0.0f, 1.0f
+//    const GLfloat background_color[] = {
+//            (float)glm::sin(timer) * 0.5f + 0.5f,
+//            (float)glm::cos(timer) * 0.5f + 0.5f,
+//            0.0f, 0.0f
+//    };
+    const GLfloat background_color[] = {
+            0.5f,
+            0.5f,
+            0.0f, 0.0f
     };
-    glClearBufferfv(GL_COLOR, 0, color);
+    glClearBufferfv(GL_COLOR, 0, background_color);
 
     glUseProgram(rendering_program);
+
+    GLfloat attrib_offset[] = {
+            (float)glm::sin(timer) * 0.5f,
+            (float)glm::cos(timer) * 0.6f,
+            0.0f, 0.0f
+    };
+    glVertexAttrib4fv(0, attrib_offset);
+
+    GLfloat attrib_color[] = {
+            (float)glm::sin(timer) * 0.5f,
+            (float)glm::cos(timer) * 0.6f,
+            0.0f, 0.0f
+    };
+    glVertexAttrib4fv(1, attrib_color);
+
     glDrawArrays(GL_TRIANGLES, 0, 3);
 
 }
@@ -116,10 +138,12 @@ void BSApp::shutdown() {
 }
 
 void BSApp::start_loop() {
+    auto begin_time = std::chrono::steady_clock::now();
+
     while (loop)
     {
-        timer = std::chrono::duration_cast<std::chrono::nanoseconds>(
-                std::chrono::system_clock::now().time_since_epoch()).count();
+        timer = std::chrono::duration_cast<std::chrono::milliseconds>(
+                (std::chrono::steady_clock::now() - begin_time)).count() / 100.0f;
 
         render();
 
